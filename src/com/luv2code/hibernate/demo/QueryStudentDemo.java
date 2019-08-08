@@ -27,9 +27,14 @@ public class QueryStudentDemo {
 			List<Student> theStudents = session.createQuery("from Student").getResultList();
 
 			// Display the students
-			for (Student tempStudent : theStudents) {
-				System.out.println(tempStudent);
-			}
+			displayStudents(theStudents);
+
+			// Query students: lastName = 'Doe'
+			theStudents = session.createQuery("from Student s where s.lastName = 'Doe'").getResultList();
+
+			// Display the students
+			System.out.println("\n\nStudents who have last name of Doe");
+			displayStudents(theStudents);
 
 			// Commit transaction
 			session.getTransaction().commit();
@@ -44,6 +49,12 @@ public class QueryStudentDemo {
 			}
 		}
 
+	}
+
+	private static void displayStudents(List<Student> theStudents) {
+		for (Student tempStudent : theStudents) {
+			System.out.println(tempStudent);
+		}
 	}
 
 }
