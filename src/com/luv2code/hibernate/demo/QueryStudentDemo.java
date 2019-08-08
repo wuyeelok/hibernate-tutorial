@@ -2,9 +2,15 @@ package com.luv2code.hibernate.demo;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import com.luv2code.hibernate.demo.entity.Student;
 
@@ -23,32 +29,50 @@ public class QueryStudentDemo {
 			// Start a transaction
 			session.beginTransaction();
 
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+
+			CriteriaQuery<Student> cq = cb.createQuery(Student.class);
+
+			Root<Student> root = cq.from(Student.class);
+
 			// Query students
-			List<Student> theStudents = session.createQuery("from Student").getResultList();
+			cq.select(root);
+			Query<Student> query = session.createQuery(cq);
+			List<Student> theStudents = query.getResultList();
 
 			// Display the students
+			System.out.println("SHOW ALL students!");
 			displayStudents(theStudents);
 
 			// Query students: lastName = 'Doe'
-			theStudents = session.createQuery("from Student s where s.lastName = 'Doe'").getResultList();
+			Predicate lastNameDoe = cb.equal(root.get("lastName"), "Doe");
+			cq.select(root).where(lastNameDoe);
+			query = session.createQuery(cq);
+			theStudents = query.getResultList();
 
 			// Display the students
 			System.out.println("\n\nStudents who have last name of Doe");
 			displayStudents(theStudents);
 
 			// Query students: lastName='Doe' OR firstName='Daffy'
-			theStudents = session.createQuery("from Student s where s.lastName='Doe' OR s.firstName='Daffy'")
-					.getResultList();
+			Predicate firstNameDaffy = cb.equal(root.get("firstName"), "Daffy");
+			Predicate doeOrDaffy = cb.or(lastNameDoe, firstNameDaffy);
+			cq.select(root).where(doeOrDaffy);
+			query = session.createQuery(cq);
+			theStudents = query.getResultList();
 
 			// Display the students
 			System.out.println("\n\nStudents who have last name of Doe OR first name of Daffy");
 			displayStudents(theStudents);
 
 			// Query students where email LIKE '%luv2code.com'
-			theStudents = session.createQuery("from Student s where s.email LIKE '%luv2.code.com'").getResultList();
+			Predicate emailEndsWithluv2Code = cb.like(root.get("email"), "%luv2.code.com");
+			cq.select(root).where(emailEndsWithluv2Code);
+			query = session.createQuery(cq);
+			theStudents = query.getResultList();
 
 			// Display the students
-			System.out.println("\n\nStudents with email ends with luv2code.com");
+			System.out.println("\n\nStudents with email ends with luv2.code.com");
 			displayStudents(theStudents);
 
 			// Commit transaction
