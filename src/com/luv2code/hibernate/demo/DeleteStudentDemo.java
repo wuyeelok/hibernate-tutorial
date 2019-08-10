@@ -1,5 +1,10 @@
 package com.luv2code.hibernate.demo;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -43,6 +48,36 @@ public class DeleteStudentDemo {
 
 			// commit the transaction
 			session.getTransaction().commit();
+
+			// Delete student id = 2 using query
+			System.out.println("\n\nDeleting student id = 2...");
+
+			// Get the session
+			session = factory.getCurrentSession();
+
+			// Begin transaction
+			session.beginTransaction();
+
+			// Get the criteria builder
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+
+			// Get criteria delete
+			CriteriaDelete<Student> cd = cb.createCriteriaDelete(Student.class);
+
+			// Set root
+			Root<Student> r = cd.from(Student.class);
+
+			// Set condition
+			Predicate idTwo = cb.equal(r.get("id"), 2);
+			cd.where(idTwo);
+
+			// Call query
+			int deletedRow = session.createQuery(cd).executeUpdate();
+
+			// Commit the transaction
+			session.getTransaction().commit();
+
+			System.out.println("Deleted student row: " + deletedRow);
 
 			if (session != null) {
 				session.close();
