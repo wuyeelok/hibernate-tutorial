@@ -67,4 +67,10 @@ public class Employee {
 		this.company = company;
 	}
 
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", company=" + company + "]";
+	}
+
 }
