@@ -8,16 +8,20 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import com.luv2code.hibernate.demo.entity.Employee;
 
 public class ReadEmployeeService {
 
-	public static List<Employee> readAllEmployee(Session session) {
+	public static List<Employee> readAllEmployee(SessionFactory factory) {
 		List<Employee> empRecord = new ArrayList<>();
-
+		Session session = null;
 		try {
+			// Get session
+			session = factory.getCurrentSession();
+
 			// Begin transaction
 			session.beginTransaction();
 
@@ -44,6 +48,10 @@ public class ReadEmployeeService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
 		}
 
 		return empRecord;
