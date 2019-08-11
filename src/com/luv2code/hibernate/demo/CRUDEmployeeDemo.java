@@ -42,6 +42,15 @@ public class CRUDEmployeeDemo {
 
 			printAllEmployee(factory);
 
+			List<Integer> speicalEmpIds = new ArrayList<>();
+			speicalEmpIds.add(1);
+			speicalEmpIds.add(2);
+			speicalEmpIds.add(5);
+
+			List<Employee> speicalEmp = ReadEmployeeService.readEmployeeById(factory, speicalEmpIds);
+			System.out.println("\n\nSpecial employee list:");
+			speicalEmp.forEach(System.out::println);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
