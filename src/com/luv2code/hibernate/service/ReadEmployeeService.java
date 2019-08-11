@@ -107,4 +107,46 @@ public class ReadEmployeeService {
 
 		return empRecord;
 	}
+
+	public static List<Employee> readEmployeeByCompany(SessionFactory factory, String company) {
+		List<Employee> employees = new ArrayList<>();
+
+		Session session = null;
+		try {
+			// Get session from factory
+			session = factory.getCurrentSession();
+
+			// Begin transaction
+			session.beginTransaction();
+
+			// Get criteria builder
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+
+			// Get criteria query
+			CriteriaQuery<Employee> cq = cb.createQuery(Employee.class);
+
+			// Set up predicate
+			Root<Employee> r = cq.from(Employee.class);
+			Predicate equalCompany = cb.equal(r.get("company"), company);
+			cq.select(r).where(equalCompany);
+
+			// Create query from session
+			Query<Employee> q = session.createQuery(cq);
+
+			// Get result list
+			employees = q.getResultList();
+
+			// Commit transaction
+			session.getTransaction().commit();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
+		return employees;
+	}
 }

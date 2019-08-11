@@ -8,6 +8,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.luv2code.hibernate.demo.entity.Employee;
 import com.luv2code.hibernate.service.CreateEmployeeService;
+import com.luv2code.hibernate.service.DeleteEmployeeService;
 import com.luv2code.hibernate.service.ReadEmployeeService;
 import com.luv2code.hibernate.service.UpdateEmployeeService;
 
@@ -50,6 +51,18 @@ public class CRUDEmployeeDemo {
 			List<Employee> speicalEmp = ReadEmployeeService.readEmployeeById(factory, speicalEmpIds);
 			System.out.println("\n\nSpecial employee list:");
 			speicalEmp.forEach(System.out::println);
+
+			System.out.println("\n\nRead Employee fom same company");
+			List<Employee> ecConsulting = ReadEmployeeService.readEmployeeByCompany(factory, "EC Consultant Ltd.");
+			ecConsulting.forEach(System.out::println);
+
+			System.out.println("\n\nDelete id 1 & 5");
+			List<Integer> deleteIds = new ArrayList<>();
+			deleteIds.add(1);
+			deleteIds.add(5);
+
+			int deletedRow = DeleteEmployeeService.deleteEmployeeById(factory, deleteIds);
+			System.out.println("Deleted row: " + deletedRow);
 
 		} catch (Exception e) {
 			e.printStackTrace();
