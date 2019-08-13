@@ -15,3 +15,5 @@ CREATE TABLE `student` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+ALTER TABLE `hb_student_tracker`.`student` 
+ADD COLUMN `date_of_birth` DATETIME NULL AFTER `last_name`;
