@@ -23,6 +23,22 @@ public class DeleteDemo {
 			// Start a transaction
 			session.beginTransaction();
 
+			// Get instructor by primary key / id
+			int theId = 1;
+			Instructor tempInstructor = session.get(Instructor.class, theId);
+
+			System.out.println("Found instructor: " + tempInstructor);
+
+			// Delete the instructors
+			if (tempInstructor != null) {
+
+				System.out.println("Deleting: " + tempInstructor);
+
+				// Note: wil ALSO delete associated "details" object
+				// because of CascadeType.ALL
+				session.delete(tempInstructor);
+			}
+
 			// Commit transaction
 			session.getTransaction().commit();
 
