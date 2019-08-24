@@ -24,6 +24,22 @@ public class CreateCourseDemo {
 			// Start a transaction
 			session.beginTransaction();
 
+			// Get the instructor from db
+			int theId = 1;
+			Instructor tempInstructor = session.get(Instructor.class, theId);
+
+			// Create some courses
+			Course tempCourse1 = new Course("Air Guitar - The Ultimate Guide");
+			Course tempCourse2 = new Course("The Pinball Masterclass");
+
+			// Add courses to instructor
+			tempInstructor.add(tempCourse1);
+			tempInstructor.add(tempCourse2);
+
+			// Save the courses
+			session.save(tempCourse1);
+			session.save(tempCourse2);
+
 			// Commit transaction
 			session.getTransaction().commit();
 
