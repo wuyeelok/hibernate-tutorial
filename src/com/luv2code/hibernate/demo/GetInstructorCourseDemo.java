@@ -24,6 +24,15 @@ public class GetInstructorCourseDemo {
 			// Start a transaction
 			session.beginTransaction();
 
+			// Get the instructor from DB
+			int theId = 1;
+			Instructor tempInstructor = session.get(Instructor.class, theId);
+
+			System.out.println("Instructor: " + tempInstructor);
+
+			// Get course for the instructor
+			System.out.println("Courses: " + tempInstructor.getCourses());
+
 			// Commit transaction
 			session.getTransaction().commit();
 
