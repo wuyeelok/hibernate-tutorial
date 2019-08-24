@@ -114,7 +114,7 @@ public class Instructor {
 				+ ", instructorDetail=" + instructorDetail + "]";
 	}
 
-	// Add convenience methods for bi-directonal relationship
+	// Add convenience methods for bi-directional relationship
 	public void add(Course tempCourse) {
 		if (courses == null) {
 			courses = new ArrayList<>();
