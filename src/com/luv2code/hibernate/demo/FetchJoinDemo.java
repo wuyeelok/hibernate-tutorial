@@ -3,6 +3,7 @@ package com.luv2code.hibernate.demo;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import com.luv2code.hibernate.demo.entity.Course;
 import com.luv2code.hibernate.demo.entity.Instructor;
@@ -26,7 +27,16 @@ public class FetchJoinDemo {
 
 			// Get the instructor from DB
 			int theId = 1;
-			Instructor tempInstructor = session.get(Instructor.class, theId);
+
+			Query<Instructor> query = session.createQuery(
+					"select i from Instructor i " + "JOIN FETCH i.courses " + "where i.id=:theInstructorId",
+					Instructor.class);
+
+			// Set parameter on query
+			query.setParameter("theInstructorId", theId);
+
+			// Execute queyr and get instructor
+			Instructor tempInstructor = query.getSingleResult();
 
 			System.out.println("luv2code: Instructor: " + tempInstructor);
 
@@ -36,7 +46,6 @@ public class FetchJoinDemo {
 			// Close the session
 			session.close();
 
-			// Since courses are lazy loaded ... this should fail
 			System.out.println("\nluv2code: The session is now closed!\n");
 
 			// Get course for the instructor
