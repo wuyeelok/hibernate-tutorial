@@ -1,5 +1,11 @@
 package com.luv2code.hibernate.demo;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -28,14 +34,23 @@ public class FetchJoinDemo {
 			// Get the instructor from DB
 			int theId = 1;
 
-			Query<Instructor> query = session.createQuery(
-					"select i from Instructor i " + "JOIN FETCH i.courses " + "where i.id=:theInstructorId",
-					Instructor.class);
+			// Get CriteriaBuilder from session
+			CriteriaBuilder cb = session.getCriteriaBuilder();
 
-			// Set parameter on query
-			query.setParameter("theInstructorId", theId);
+			// Create a criteria query
+			CriteriaQuery<Instructor> cq = cb.createQuery(Instructor.class);
 
-			// Execute queyr and get instructor
+			// Get root
+			Root<Instructor> root = cq.from(Instructor.class);
+			root.fetch("courses", JoinType.LEFT);
+
+			Predicate equalInstructorId = cb.equal(root.get("id"), theId);
+
+			cq.select(root).where(equalInstructorId);
+
+			Query<Instructor> query = session.createQuery(cq);
+
+			// Execute query and get instructor
 			Instructor tempInstructor = query.getSingleResult();
 
 			System.out.println("luv2code: Instructor: " + tempInstructor);
