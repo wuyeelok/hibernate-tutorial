@@ -38,7 +38,6 @@ public class FetchJoinDemo {
 
 			// Since courses are lazy loaded ... this should fail
 			System.out.println("\nluv2code: The session is now closed!\n");
-			// Solution 1: Call getter method while session is open
 
 			// Get course for the instructor
 			System.out.println("luv2code: Courses: " + tempInstructor.getCourses());
