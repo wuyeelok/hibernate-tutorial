@@ -26,6 +26,20 @@ public class DeleteCourseAndReviewsDemo {
 			// Start a transaction
 			session.beginTransaction();
 
+			// Get the course
+			int theId = 10;
+			Course tempCourse = session.get(Course.class, theId);
+
+			// Print the course
+			System.out.println("Deleting the course ... ");
+			System.out.println(tempCourse);
+
+			// Print the course reviews
+			System.out.println(tempCourse.getReviews());
+
+			// Delete the course
+			session.delete(tempCourse);
+
 			// Commit transaction
 			session.getTransaction().commit();
 
