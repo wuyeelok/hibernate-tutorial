@@ -27,6 +27,19 @@ public class AddCoursesForMaryDemo {
 			// Start a transaction
 			session.beginTransaction();
 
+			// Get the student Mary from database
+			int studentId = 2;
+			Student tempStudent = session.get(Student.class, studentId);
+
+			System.out.println("\n\nLoaded student: " + tempStudent);
+			System.out.println("\nCourses: " + tempStudent.getCourses());
+
+			// Create more courses
+
+			// Add student to course
+
+			// Save the course
+
 			// Commit transaction
 			session.getTransaction().commit();
 
