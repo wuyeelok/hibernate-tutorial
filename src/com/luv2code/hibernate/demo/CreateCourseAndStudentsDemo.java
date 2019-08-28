@@ -34,6 +34,19 @@ public class CreateCourseAndStudentsDemo {
 			session.save(tempCourse);
 			System.out.println("Saved the course: " + tempCourse);
 
+			// Create the students
+			Student tempStudent1 = new Student("John", "Doe", "john@luv2code.com");
+			Student tempStudent2 = new Student("Mary", "Public", "mary@luv2code.com");
+
+			// Add students to the course
+			tempCourse.addStudent(tempStudent1);
+			tempCourse.addStudent(tempStudent2);
+
+			// Save the students
+			System.out.println("\nSaving students");
+			session.save(tempStudent1);
+			session.save(tempStudent2);
+
 			// Commit transaction
 			session.getTransaction().commit();
 

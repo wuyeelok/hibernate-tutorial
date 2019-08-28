@@ -1,6 +1,5 @@
 package com.luv2code.hibernate.demo.entity;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,10 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.luv2code.hibernate.demo.DateUtils;
 
 @Entity
 @Table(name = "student")
@@ -34,9 +29,11 @@ public class Student {
 	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name = "date_of_birth")
-	@Temporal(TemporalType.DATE)
-	private Date dateOfBirth;
+	/*
+	 * @Column(name = "date_of_birth")
+	 * 
+	 * @Temporal(TemporalType.DATE) private Date dateOfBirth;
+	 */
 
 	@Column(name = "email")
 	private String email;
@@ -50,11 +47,11 @@ public class Student {
 
 	}
 
-	public Student(String firstName, String lastName, Date dateOfBirth, String email) {
+	public Student(String firstName, String lastName, String email) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.dateOfBirth = dateOfBirth;
+		// this.dateOfBirth = dateOfBirth;
 		this.email = email;
 	}
 
@@ -82,13 +79,12 @@ public class Student {
 		this.lastName = lastName;
 	}
 
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
+	/*
+	 * public Date getDateOfBirth() { return dateOfBirth; }
+	 * 
+	 * public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth =
+	 * dateOfBirth; }
+	 */
 
 	public String getEmail() {
 		return email;
@@ -108,8 +104,7 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
-				+ DateUtils.formatDate(dateOfBirth) + ", email=" + email + "]";
+		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
 	}
 
 }
