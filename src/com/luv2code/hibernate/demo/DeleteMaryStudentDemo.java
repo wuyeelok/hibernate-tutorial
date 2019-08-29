@@ -34,6 +34,10 @@ public class DeleteMaryStudentDemo {
 			System.out.println("\n\nLoaded student: " + tempStudent);
 			System.out.println("\nCourses: " + tempStudent.getCourses());
 
+			// Delete student
+			System.out.println("\n\nDeleting student: " + tempStudent);
+			session.delete(tempStudent);
+
 			// Commit transaction
 			session.getTransaction().commit();
 
