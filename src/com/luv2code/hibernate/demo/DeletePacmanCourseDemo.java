@@ -27,6 +27,15 @@ public class DeletePacmanCourseDemo {
 			// Start a transaction
 			session.beginTransaction();
 
+			// Get the pacman course from db
+			int courseId = 2;
+			Course tempCourse = session.get(Course.class, courseId);
+
+			// Delete the course
+			System.out.println("Deleting course: " + tempCourse);
+
+			session.delete(tempCourse);
+
 			// Commit transaction
 			session.getTransaction().commit();
 
